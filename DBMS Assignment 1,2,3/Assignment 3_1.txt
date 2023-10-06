@@ -1,0 +1,1306 @@
+29.
+
+SQL> select empno,ename,sal,comm,case when comm is null or comm=0 then'need improvement'
+  2  when comm<=300 then 'ok'
+  3  when comm between 301 and 500 then 'good'
+  4  else 'excellent' end mark
+  5  from emp
+  6  /
+
+     EMPNO ENAME             SAL       COMM MARK
+---------- ---------- ---------- ---------- ----------------
+      7369 SMITH             800            need improvement
+      7499 ALLEN            1600        300 ok
+      7521 WARD             1250        500 good
+      7566 JONES            2975            need improvement
+      7654 MARTIN           1250       1400 excellent
+      7698 BLAKE            2850            need improvement
+      7782 CLARK            2450            need improvement
+      7788 SCOTT            3000            need improvement
+      7839 KING             5000            need improvement
+      7844 TURNER           1500          0 need improvement
+      7876 ADAMS            1100            need improvement
+      7900 JAMES             950            need improvement
+      7902 FORD             3000            need improvement
+      7934 MILLER           1300            need improvement
+
+14 rows selected.
+------------------------------------------------------------------------------
+
+30.
+
+select empno,ename,sal,comm,case deptno when 10 the 'HR'
+when 20 then 'ADMIN'
+when 30 then 'ACCOUNTS'
+else 'PURCHASE' end DNAME
+from emp;
+
+
+     EMPNO ENAME             SAL       COMM DNAME
+---------- ---------- ---------- ---------- --------
+      7369 SMITH             800            ADMIN
+      7499 ALLEN            1600        300 ACCOUNTS
+      7521 WARD             1250        500 ACCOUNTS
+      7566 JONES            2975            ADMIN
+      7654 MARTIN           1250       1400 ACCOUNTS
+      7698 BLAKE            2850            ACCOUNTS
+      7782 CLARK            2450            HR
+      7788 SCOTT            3000            ADMIN
+      7839 KING             5000            HR
+      7844 TURNER           1500          0 ACCOUNTS
+      7876 ADAMS            1100            ADMIN
+      7900 JAMES             950            ACCOUNTS
+      7902 FORD             3000            ADMIN
+      7934 MILLER           1300            HR
+
+14 rows selected.
+
+
+
+-------------------------------------------------------------------------------
+31.
+
+
+SQL> create table mydept_DBDA
+  2  (deptid number primary key,
+  3  dname varchar2(20) not null unique,
+  4  dloc varchar2(20));
+
+Table created.
+
+SQL> insert into mydept_DBDA
+  2  values(30,'Purchase','mumbai');
+
+1 row created.
+
+SQL> select *from mydept_DBDA
+  2  /
+
+    DEPTID DNAME                DLOC
+---------- -------------------- --------------------
+        30 Purchase             mumbai
+
+
+SQL> create table myemployee
+  2  (
+  3  empno number(5) primary key,
+  4  fname varchar2(15) not null,
+  5  mname varchar2(15),
+  6  lname varchar2(15) not null,
+  7  sal number(9,2) check(sal>=1000),
+  8  doj date default sysdate,
+  9  passportnum varchar2(15) unique,
+ 10  deptno number constraint fk_deptno references mydept_DBDA(deptid) on delete cascade);
+
+Table created.
+
+SQL> desc myemployee
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                             NOT NULL NUMBER(5)
+ FNAME                                                             NOT NULL VARCHAR2(15)
+ MNAME                                                                      VARCHAR2(15)
+ LNAME                                                             NOT NULL VARCHAR2(15)
+ SAL                                                                        NUMBER(9,2)
+ DOJ                                                                        DATE
+ PASSPORTNUM                                                                VARCHAR2(15)
+ DEPTNO                                                                     NUMBER
+
+---------------------------------------------------------------------------------------
+32.
+
+ create table Student_1
+  2  (sid number primary key,
+  3  sname varchar2(20));
+
+Table created.
+ create table Course_1
+  2  (cid number primary key,
+  3  cname varchar2(20));
+
+Table created.
+
+SQL> insert into Student_1
+  2  values(100,'aaa');
+
+1 row created.
+
+SQL> insert into Student_1
+  2  values(200,'bbb');
+
+1 row created.
+
+SQL> insert into Student_1
+  2  values(300,'ccc');
+
+1 row created.
+
+SQL> insert into Course_1
+  2  values(1,'java');
+
+1 row created.
+ insert into Course_1
+  2  values(2,'.net');
+
+1 row created.
+
+SQL> insert into Course_1
+  2  values(3,'c++');
+
+1 row created.
+ select *from Student_1
+  2  /
+
+       SID SNAME
+---------- --------------------
+       100 aaa
+       200 bbb
+       300 ccc
+
+SQL> select *from Course_1
+  2  /
+
+       CID CNAME
+---------- --------------------
+         1 java
+         2 .net
+         3 c++
+
+
+SQL> create table Marks
+  2  (studid number,
+  3  courseid number,
+  4  marks number,
+  5  constraint pk primary key(studid,courseid),
+  6  constraint fk_sid foreign key (studid) references Student_1(sid) on delete cascade,
+  7  constraint fk_cid foreign key (courseid) references Course_1(cid));
+
+Table created.
+
+SQL> insert into Marks
+  2  values(100,1,85);
+
+1 row created.
+
+SQL> insert into Marks
+  2  values(200,2,78);
+
+1 row created.
+
+SQL> insert into Marks
+  2  values(300,3,69);
+
+1 row created.
+
+SQL> select *from Marks
+  2  /
+
+    STUDID   COURSEID      MARKS
+---------- ---------- ----------
+       100          1         85
+       200          2         78
+       300          3         69
+
+----------------------------------------------------------------------------------------
+Que 3.
+
+
+  1  create table emp10
+  2  (emp number primary key,
+  3  ename varchar2(20) unique,
+  4  job varchar2(20),
+  5  dept number,
+  6* salgrade number(9,2))
+  7  /
+
+Table created.
+
+SQL> insert into emp10
+  2  values(3,'abhi','helper',10,2000);
+
+1 row created.
+
+QL> insert into emp10
+  2  values(4,'javier','helper',30,2000);
+
+QL> insert into emp10
+  2  values(2,'sunny','asistant',40,2000);
+
+
+SQL> select *from emp10
+  2  /
+
+       EMP ENAME                JOB                        DEPT   SALGRADE
+---------- -------------------- -------------------- ---------- ----------
+         1 jon                  clerk                        10       2000
+         3 abhi                 helper                       10       2000
+         4 javier               helper                       30       2000
+
+
+------------------------------------------------------------------------------------------------------------
+35.
+
+
+
+  1  update emp
+  2  set sal=sal*0.15+nvl(comm,0)
+  3* where deptno=10
+SQL> /
+
+3 rows updated.
+
+
+SQL> update emp
+  2  set job ='MANAGER'
+  3  where deptno =10;
+
+3 rows updated.
+
+SQL> update emp
+  2  set mgr=777
+  3  where deptno=10;
+
+3 rows updated.
+
+
+  1  select ename,job,mgr
+  2  from emp
+  3* where deptno=10
+ENAME      JOB              MGR
+---------- --------- ----------
+CLARK      MANAGER          777
+KING       MANAGER          777
+MILLER     MANAGER          777
+
+-------------------------------------------------------------------------------------------------------------------
+
+36.
+
+SQL> update emp
+  2  set job='S-CLERK'
+  3  where ename='SMITH';
+
+1 row updated.
+
+SQL> select ename,job
+  2  from emp
+  3  where job='S-CLERK';
+
+ENAME      JOB
+---------- ---------
+SMITH      S-CLERK
+
+---------------------------------------------------------------------------------------------------------------------------
+
+37.
+
+
+SQL> update emp
+  2  set sal=sal+sal*0.15
+  3  where comm !=0;
+
+3 rows updated.
+
+SQL> select ename,sal
+  2  from emp
+  3  where comm !=0;
+
+ENAME             SAL
+---------- ----------
+ALLEN            1840
+WARD           1437.5
+MARTIN         1437.5
+
+---------------------------------------------------------------------------------------------------------------------------
+
+38.
+
+
+SQL> select *from emp
+  2  where sal> (select sal from emp where ename='SMITH');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1840        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81     1437.5        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81     1437.5       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+10 rows selected.
+
+-----------------------------------------------------------------------------------------------------------------------------
+39.
+
+
+SQL> select *from emp
+  2  where deptno =(select deptno from emp where ename='SMITH');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      S-CLERK         7902 17-DEC-80        800                    20
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+40.
+
+
+SQL> select *from emp
+  2  where sal between (select sal from emp where ename ='SMITH') and (select sal from emp where ename='ALLEN');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      S-CLERK         7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1840        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81     1437.5        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81     1437.5       1400         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+7 rows selected.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+41.
+
+
+SQL> delete emp
+  2  where deptno =(select deptno from emp where ename='ALAN');
+
+0 rows deleted.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+42.
+
+SQL> update emp
+  2  set sal =(select sal from emp where ename='MILLER')
+  3  where ename='ALAN';
+
+1 row updated.
+
+SQL> select ename, sal
+  2  from emp
+  3  /
+
+ENAME             SAL
+---------- ----------
+SMITH             800
+ALLEN            1600
+WARD             1250
+JONES            2975
+MARTIN           1250
+BLAKE            2850
+CLARK            2450
+SCOTT            3000
+KING             5000
+TURNER           1500
+ADAMS            1100
+JAMES             950
+FORD             3000
+MILLER           1300
+ALAN             1300
+
+15 rows selected.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+43.
+
+
+SQL> insert into emp
+  2  values(7903,'WALL','aaa',7566,'15-JAN-85',1000,null,20);
+
+1 row created.
+
+SQL> select *from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7903 WALL       aaa             7566 15-JAN-85       1000                    20
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+15 rows selected.
+
+
+SQL> update emp
+  2  set sal =(select sal from emp where ename='MILLER')
+  3  where deptno=(select deptno from emp where ename ='WALL');
+
+6 rows updated.
+
+SQL> select *from emp
+  2  /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7903 WALL       aaa             7566 15-JAN-85       1300                    20
+      7369 SMITH      CLERK           7902 17-DEC-80       1300                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       1300                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       1300                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1300                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       1300                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+15 rows selected.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+44.
+
+SQL> select *from emp
+  2  /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7901 alan       aaa             7782 18-JAN-87       4000                    20
+
+15 rows selected.
+
+
+SQL> select *from emp
+  2  where sal >any(select sal from emp where ename in ('SMITH','alan'));
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7901 alan       aaa             7782 18-JAN-87       4000                    20
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+14 rows selected.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+45.
+
+
+SQL> select *from emp
+  2  where sal >all(select avg(sal) from emp where deptno=10);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7901 alan       aaa             7782 18-JAN-87       4000                    20
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+46.
+
+SQL> select *from emp
+  2  where sal >(select avg(sal) from emp where deptno=(select deptno from emp where ename='ALLEN'));
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+
+
+
+SQL> select avg(sal)
+  2  from emp
+  3  where deptno=30;
+
+  AVG(SAL)
+----------
+1566.66667
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+47.
+
+
+SQL> select e.ename,e.deptno,d.deptno,d.dname
+  2  from emp e, dept d
+  3  where d.deptno=(select deptno from dept where dname='PURCHASE');
+
+ENAME          DEPTNO     DEPTNO DNAME
+---------- ---------- ---------- --------------
+SMITH              20         50 PURCHASE
+ALLEN              30         50 PURCHASE
+WARD               30         50 PURCHASE
+JONES              20         50 PURCHASE
+MARTIN             30         50 PURCHASE
+BLAKE              30         50 PURCHASE
+CLARK              10         50 PURCHASE
+SCOTT              20         50 PURCHASE
+KING               10         50 PURCHASE
+TURNER             30         50 PURCHASE
+ADAMS              20         50 PURCHASE
+JAMES              30         50 PURCHASE
+FORD               20         50 PURCHASE
+MILLER             10         50 PURCHASE
+JON                50         50 PURCHASE
+ADITYA             50         50 PURCHASE
+SUNNY              50         50 PURCHASE
+
+17 rows selected.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+48.
+
+
+SQL>
+SQL> select *from emp e
+  2  where sal>(select avg(sal) from emp d where d.deptno=e.deptno);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+
+6 rows selected.
+
+
+SQL> select deptno ,avg(sal)
+  2  from emp
+  3  group by deptno;
+
+    DEPTNO   AVG(SAL)
+---------- ----------
+        30 1566.66667
+        20       2175
+        10 2916.66667
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+49.
+
+SQL> select *from emp
+  2  where sal <all(select sal from emp where ename='MANAGER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7901 alan       aaa             7782 18-JAN-87       4000                    20
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+
+15 rows selected.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+50.
+
+
+SQL> select *from emp e
+  2  where sal >(select avg(sal) from emp j where j.job=e.job);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+6 rows selected.
+
+
+SQL> select job ,avg(sal)
+  2  from emp
+  3  group by job;
+
+JOB         AVG(SAL)
+--------- ----------
+CLERK         1037.5
+SALESMAN        1400
+PRESIDENT       5000
+MANAGER   2758.33333
+ANALYST         3000
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+51.
+
+
+
+SQL> select empno,ename,e.deptno,d.deptno,dname
+  2  from emp e , dept d
+  3  where e.deptno =d.deptno;
+
+     EMPNO ENAME          DEPTNO     DEPTNO DNAME
+---------- ---------- ---------- ---------- --------------
+      7369 SMITH              20         20 RESEARCH
+      7499 ALLEN              30         30 SALES
+      7521 WARD               30         30 SALES
+      7566 JONES              20         20 RESEARCH
+      7654 MARTIN             30         30 SALES
+      7698 BLAKE              30         30 SALES
+      7782 CLARK              10         10 ACCOUNTING
+      7788 SCOTT              20         20 RESEARCH
+      7839 KING               10         10 ACCOUNTING
+      7844 TURNER             30         30 SALES
+      7876 ADAMS              20         20 RESEARCH
+      7900 JAMES              30         30 SALES
+      7902 FORD               20         20 RESEARCH
+      7934 MILLER             10         10 ACCOUNTING
+
+14 rows selected.
+
+
+------------------------------------------------------------------------------------------
+
+52.
+
+SQL> select empno,ename,dname,grade,sal
+  2  from emp e inner join salgrade s
+  3  on e.sal between s.losal and s.hisal
+  4  inner join dept d on e.deptno=d.deptno;
+
+     EMPNO ENAME      DNAME               GRADE        SAL
+---------- ---------- -------------- ---------- ----------
+      7839 KING       ACCOUNTING              5       5000
+      7782 CLARK      ACCOUNTING              4       2450
+      7934 MILLER     ACCOUNTING              2       1300
+      7902 FORD       RESEARCH                4       3000
+      7788 SCOTT      RESEARCH                4       3000
+      7566 JONES      RESEARCH                4       2975
+      7876 ADAMS      RESEARCH                1       1100
+      7369 SMITH      RESEARCH                1        800
+      7698 BLAKE      SALES                   4       2850
+      7499 ALLEN      SALES                   3       1600
+      7844 TURNER     SALES                   3       1500
+      7654 MARTIN     SALES                   2       1250
+      7521 WARD       SALES                   2       1250
+      7900 JAMES      SALES                   1        950
+
+14 rows selected.
+
+--------------------------------------------------------------------------------------
+
+53.
+
+SQL> select e.empno,e.ename,e.mgr,m.empno mgrno, m.ename mgrname
+  2  from emp e ,emp m
+  3  where e.mgr=m.empno;
+
+     EMPNO ENAME             MGR      MGRNO MGRNAME
+---------- ---------- ---------- ---------- ----------
+      7902 FORD             7566       7566 JONES
+      7788 SCOTT            7566       7566 JONES
+      7900 JAMES            7698       7698 BLAKE
+      7844 TURNER           7698       7698 BLAKE
+      7654 MARTIN           7698       7698 BLAKE
+      7521 WARD             7698       7698 BLAKE
+      7499 ALLEN            7698       7698 BLAKE
+      7934 MILLER           7782       7782 CLARK
+      7876 ADAMS            7788       7788 SCOTT
+      7782 CLARK            7839       7839 KING
+      7698 BLAKE            7839       7839 KING
+      7566 JONES            7839       7839 KING
+      7369 SMITH            7902       7902 FORD
+
+13 rows selected.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+54.
+
+SQL> create table salesman
+  2  (sid number primary key,
+  3  sname varchar2(20) unique,
+  4  address varchar2(20));
+
+Table created.
+
+SQL> desc salesman
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ SID                                                               NOT NULL NUMBER
+ SNAME                                                                      VARCHAR2(20)
+ ADDRESS                                                                    VARCHAR2(20)
+
+insert into salesman
+values(101,'AS','PUNE');
+
+insert into salesman
+values(102,'PS','MUMBAI');
+
+insert into salesman
+values(103,'KS','NAGPUR');
+
+SQL> select *from salesman
+  2  /
+
+       SID SNAME                ADDRESS
+---------- -------------------- --------------------
+       101 AS                   PUNE
+       102 PS                   MUMBAI
+       103 KS                   NAGPUR
+
+
+
+SQL> desc category
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ CID                                                               NOT NULL NUMBER
+ CNAME                                                                      VARCHAR2(20)
+ DISCRIPTION                                                                VARCHAR2(20)
+
+insert into category
+values(1,'AAA','QW');
+
+insert into category
+values(2,'BBB','RW');
+
+insert into category
+values(3,'CCC','EW');
+
+
+
+SQL> select *from category;
+
+       CID CNAME                DISCRIPTION
+---------- -------------------- --------------------
+         1 AAA                  QW
+         2 BBB                  RW
+         3 CCC                  EW
+
+SQL> create table product
+  2  (pid number primary key,
+  3  pname varchar2(20),
+  4  price number(9,2),
+  5  qty number,
+  6  ccid number,
+  7  ssid number,
+  8  constraint fk1 foreign key (ccid) references category (cid),
+  9  constraint fk2 foreign key (ssid) references salesman (sid));
+
+Table created.
+
+QL> insert into product
+  2  values(10,'tap',820,5,2,101);
+
+1 row created.
+
+SQL> insert into product
+  2  values(20,'yum',1000,10,1,102);
+
+1 row created.
+
+SQL> insert into product
+  2  values(30,'urqt',900,15,3,103);
+
+1 row created.
+
+SQL> select *from product;
+
+       PID PNAME                     PRICE        QTY       CCID       SSID
+---------- -------------------- ---------- ---------- ---------- ----------
+        10 tap                         820          5          2        101
+        20 yum                        1000         10          1        102
+        30 urqt                        900         15          3        103
+
+
+
+PART (1)
+SQL> select pid,pname,s.sid,s.sname
+  2  from product p inner join salesman s
+  3  on p.ssid=s.sid;
+
+       PID PNAME                       SID SNAME
+---------- -------------------- ---------- --------------------
+        10 tap                         101 AS
+        20 yum                         102 PS
+        30 urqt                        103 KS
+
+
+
+PART(2)
+
+SQL> select pid,pname,s.sid,s.sname
+  2  from product p inner join salesman s
+  3  on p.ssid=s.sid
+  4  where address='PUNE';
+
+       PID PNAME                       SID SNAME
+---------- -------------------- ---------- --------------------
+        10 tap                         101 AS
+
+
+PART(3)
+
+
+SQL> select pid,pname,c.cid,c.cname
+  2  from product p inner join category c
+  3  on p.ccid=c.cid;
+
+       PID PNAME                       CID CNAME
+---------- -------------------- ---------- --------------------
+        10 tap                           2 BBB
+        20 yum                           1 AAA
+        30 urqt                          3 CCC
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+55.
+
+SQL> create table faculty
+  2  (fid number primary key,
+  3  fname varchar2(20),
+  4  spskill1 varchar2(20),
+  5  spskill2 varchar2(20));
+
+Table created.
+
+SQL> insert into faculty
+  2  values(10,'kjzhchi','a','b');
+
+1 row created.
+
+SQL> insert into faculty
+  2  values(11,'sdd','x','z');
+
+1 row created.
+
+SQL> insert into faculty
+  2  values(12,'lksjk','a','x');
+
+1 row created.
+
+SQL> insert into faculty
+  2  values(13,'ksfdhw','a','b');
+
+1 row created.
+
+SQL> select *from faculty;
+
+       FID FNAME                SPSKILL1             SPSKILL2
+---------- -------------------- -------------------- --------------------
+        10 kjzhchi              a                    b
+        11 sdd                  x                    z
+        12 lksjk                a                    x
+        13 ksfdhw               a                    b
+
+
+create table room
+(rid number primary key,
+rname varchar2(20),
+rloc varchar2(20));
+
+SQl>insert into room
+  2values(100,'jasmin','1stfloor');
+
+SQL> insert into room
+  2  values(101,'rose','2stfloor');
+
+1 row created.
+
+SQL> insert into room
+  2  values(105,'lotus','1stfloor');
+
+1 row created.
+
+SQL> insert into room
+  2  values(103,'Morgra','1stfloor');
+
+
+
+SQL> select *from room
+  2  /
+
+       RID RNAME                RLOC
+---------- -------------------- --------------------
+       100 jasmin               1stfloor
+       101 rose                 2stfloor
+       105 lotus                1stfloor
+       103 Morgra               1stfloor
+
+SQL> create table course_1
+  2  (cid number primary key,
+  3  cname varchar2(20),
+  4  rrid number,
+  5  ffid number,
+  6  constraint fk11 foreign key (rrid) references room (rid),
+  7  constraint fk22 foreign key (ffid) references faculty (fid));
+
+Table created.
+
+
+SQL> insert into course_1
+  2  values(121,'DBDA',100,10);
+
+1 row created.
+
+
+SQL> insert into course_1
+  2  values(131,'DAC',100,null);
+
+1 row created.
+
+
+SQL> insert into course_1
+  2  values(141,'DITISS',null,null);
+
+1 row created.
+
+SQL> insert into course_1
+  2  values(151,'DIOT',105,12);
+
+
+SQL> select *from course_1;
+
+       CID CNAME                      RRID       FFID
+---------- -------------------- ---------- ----------
+       121 DBDA                        100         10
+       131 DAC                         100
+       141 DITISS
+       151 DIOT                        105         12
+
+
+PART(1)
+
+SQL> select cid,cname,r.rid,r.rname
+  2  from course_1 c left join room r
+  3  on c.rrid=r.rid;
+
+
+       CID CNAME                       RID RNAME
+---------- -------------------- ---------- --------------------
+       121 DBDA                        100 jasmin
+       131 DAC                         101 rose
+       141 DITISS
+       151 DIOT                        105 lotus
+
+PART(2)
+
+
+SQL> select cid,cname,f.fid,f.fname,r.rid,r.rname
+  2  from course_1 c right join faculty f on c.ffid=f.fid
+  3  full join room r on c.rrid=r.rid;
+
+       CID CNAME                       FID FNAME                       RID RNAME
+---------- -------------------- ---------- -------------------- ---------- --------------------
+       121 DBDA                         10 kjzhchi                     100 jasmin
+                                                                       101 rose
+       151 DIOT                         12 lksjk                       105 lotus
+                                                                       103 Morgra
+                                        11 sdd
+                                        13 ksfdhw
+
+6 rows selected.
+
+
+
+PART(3)
+SQL> select cid,cname,r.rid,r.rname
+  2  from course_1 c right join room r
+  3  on c.rrid=r.rid;
+
+       CID CNAME                       RID RNAME
+---------- -------------------- ---------- --------------------
+       121 DBDA                        100 jasmin
+       131 DAC                         101 rose
+                                       103 Morgra
+       151 DIOT                        105 lotus
+
+PART(4)
+
+
+  1  select * from room r
+  2* where not exists (select * from course_1 c where r.rid= c.rrid)
+SQL> /
+
+       RID RNAME                RLOC
+---------- -------------------- --------------------
+       103 Morgra               1stfloor
+
+PART(6)
+
+SQL> select cid,cname,r.rname,f.fname
+  2  from course_1 c full join room r
+  3  on c.rrid=r.rid full join faculty f
+  4  on c.ffid=f.fid;
+
+
+       CID CNAME                RNAME                FNAME
+---------- -------------------- -------------------- --------------------
+       121 DBDA                 jasmin               kjzhchi
+       131 DAC                  rose
+       151 DIOT                 lotus                lksjk
+                                Morgra
+       141 DITISS
+                                                     ksfdhw
+                                                     sdd
+
+7 rows selected.
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+56.
+
+SQL> create table saleman
+  2  (sid number primary key,
+  3  sname varchar2(20) not null,
+  4  city varchar2(20));
+
+Table created.
+
+
+
+SQL> create table category1
+  2  (cid number primary key,
+  3  cname varchar2(20) unique not null,
+  4  description varchar2(20));
+
+Table created.
+
+
+SQL> insert into saleman
+  2  values(12,'Kriti','Mumbai');
+
+1 row created.
+
+SQL> insert into saleman
+  2  values(13,'Prasad','Nashik');
+
+1 row created.
+
+SQL> insert into saleman
+  2  values(14,'Arnav','Amaravati');
+
+1 row created.
+
+
+SQL> insert into saleman
+  2  values(11,'Rahul','PUNE');
+
+1 row created.
+
+
+
+1 row created.
+
+SQL> select *from saleman
+  2  /
+
+       SID SNAME                CITY
+---------- -------------------- --------------------
+        11 Rahul                PUNE
+        12 Kriti                Mumbai
+        13 Prasad               Nashik
+        14 Arnav                Amaravati
+
+SQL> select *from category1;
+
+       CID CNAME                DESCRIPTION
+---------- -------------------- --------------------
+         1 chips                very crunchy
+         2 chocolate            very chocolately
+         3 snacks               yummy
+         4 cold drinks          thanda cool
+
+
+SQL> create table product1
+  2  (pno number primary key,
+  3  pname varchar2(20) unique not null,
+  4  qty number(9,2) check(qty>0),
+  5  price number(9,2),
+  6  cacid number,
+  7  sasid number,
+  8  constraint fk111 foreign key (cacid) references category1 (cid),
+  9  constraint fk222 foreign key (sasid) references saleman (sid));
+
+Table created.
+
+SQL> insert into product1
+  2  values(123,'lays',30,30.00,1,12);
+
+1 row created.
+
+SQL> insert into product1
+  2  values(111,'pepsi',40,50.00,4,11);
+
+1 row created.
+
+SQL> insert into product1
+  2  values(134,'nachos',50,50.00,1,12);
+
+1 row created.
+
+SQL> insert into product1
+  2  values(124,'dairy milk',40,60.00,2,14);
+
+1 row created.
+
+SQL> insert into product1
+  2  values(125,'pringle',40,60.00,1,14);
+
+1 row created.
+
+
+SQL> select *from product1
+  2  /
+
+       PNO PNAME                       QTY      PRICE      CACID      SASID
+---------- -------------------- ---------- ---------- ---------- ----------
+       123 lays                         30         30          1         12
+       111 pepsi                        40         50          4         11
+       134 nachos                       50         50          1         12
+       124 dairy milk                   40         60          2         14
+       125 pringle                      40         60          1         14
+
+
+part(1)
+SQL> select pno,pname,c.cid,c.cname
+  2  from product1 p inner join category1 c
+  3  on p.cacid=c.cid
+  4  where c.cname='chips';
+
+       PNO PNAME                       CID CNAME
+---------- -------------------- ---------- --------------------
+       123 lays                          1 chips
+       134 nachos                        1 chips
+       125 pringle                       1 chips
+
+part(2)
+
+
+SQL> select pno,pname,s.sname
+  2  from product1 p inner join saleman s
+  3  on p.sasid=s.sid
+  4  where s.sname='Kriti';
+
+       PNO PNAME                SNAME
+---------- -------------------- --------------------
+       123 lays                 Kriti
+       134 nachos               Kriti
+ 
+
+part(3)
+
+
+  1  select *from saleman s
+  2* where not exists (select * from product1 p where s.sid=p.sasid)
+SQL> /
+
+       SID SNAME                CITY
+---------- -------------------- --------------------
+        13 Prasad               Nashik
+
+
+part(4)
+
+
+  1  select *from category1 c
+  2* where not exists (select * from product1 p where c.cid=p.cacid)
+SQL> /
+
+       CID CNAME                DESCRIPTION
+---------- -------------------- --------------------
+         3 snacks               yummy
+
+part(5)
+
+ 1  select *from product1 p
+  2* where not exists (select * from category c where p.cacid=c.cid)
+SQL> /
+
+       PNO PNAME                       QTY      PRICE      CACID      SASID
+---------- -------------------- ---------- ---------- ---------- ----------
+       111 pepsi                        40         50          4         11
+
+
+part(6)
+
+
+SQL> select *from saleman
+  2  where REGEXP_LIKE (sname,'^P|^N');
+
+       SID SNAME                CITY
+---------- -------------------- --------------------
+        13 Prasad               Nashik
+
+part(7)
+
+
+rote file afiedt.buf
+
+  1  alter table saleman
+  2* add (credit_limit number)
+SQL> /
+
+Table altered.
+
+SQL> select*from saleman
+  2  /
+
+       SID SNAME                CITY                 CREDIT_LIMIT
+---------- -------------------- -------------------- ------------
+        11 Rahul                PUNE
+        12 Kriti                Mumbai
+        13 Prasad               Nashik
+        14 Arnav                Amaravati
+
+

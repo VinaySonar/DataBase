@@ -1,0 +1,560 @@
+Que 1) 
+
+1. To list all records with sal > 2000 and comm>200
+
+
+SQL> select *
+  2  from emp
+  3  where sal>2000 and comm > 200;
+
+no rows selected
+......................................................................................................................................................................................
+
+2. To list all record with job=’Clerk’ or sal>2000
+
+
+SQL> select *from emp
+  2  where job='CLERK' or sal>2000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+10 rows selected.
+
+....................................................................................................................................................................................
+
+3.To list all the record with sal=1250 or 1100 or 2850.
+
+
+
+SQL> select *from emp
+  2  where sal=1250 or sal=1100 or sal=2850;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+
+.....................................................................................................................................................................................
+
+4.To list all employees with sal>1250 and <2850.
+
+
+
+SQL> select *from emp
+  2  where sal>1250 and sal<2850;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+..................................................................................................................................................................................
+
+5.To list all employees with name ends with AS.
+
+
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (ename,'^A.*S$');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+
+.....................................................................................................................................................................................
+
+6.To list all employees with job starts with C and ends with K.
+
+
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (job,'^C.*K$');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+
+....................................................................................................................................................................................
+
+7.To list all employees with job contains L at third position and
+  M at third last position.
+
+
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (job,'^..L.*M..$');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+
+...................................................................................................................................................................................
+
+8.To list all the record with sal not equal to 1250 or 1100 or 2850.
+
+
+
+SQL> select *from emp
+  2  where sal not in 1250 or sal not in 1100 or sal not in 2850;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected.
+
+...................................................................................................................................................................................
+
+9.To list all employees with salnot >1250 and <2850.
+
+
+
+SQL> select *from emp
+  2  where sal not in (1250,2850);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+11 rows selected.
+
+...................................................................................................................................................................................
+
+10.To list all employees with job starts with C , E at 3rd position and ends with K.
+
+
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (job,'^C.E.*K$');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+.............................................................................................................................................................................
+
+11.To list all rows with comm is null.
+
+
+SQL> select *from emp
+  2  where comm is null;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+10 rows selected.
+......................................................................................................................................................................
+
+12.To list all employees with sal is null and name starts with ‘S’
+
+
+SQL> select *from emp
+  2  where sal is null and ename like'S%';
+
+no rows selected
+
+......................................................................................................................................................................
+
+13.To list all employees with job contains 5 characters
+
+(a)
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (job, '{5}');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected.
+
+
+13.
+(b)
+
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (job,'^.{5}$');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+...........................................................................................
+
+14.To list all employees with name contain ‘A’ at 1 position and job
+   Contains 5 characters
+
+............................................................................................
+
+que 2) 
+
+1.
+
+
+SQL> select ename, sal, deptno
+  2  from emp
+  3  where deptno in (20,30,40);
+
+ENAME             SAL     DEPTNO
+---------- ---------- ----------
+SMITH             800         20
+ALLEN            1600         30
+WARD             1250         30
+JONES            2975         20
+MARTIN           1250         30
+BLAKE            2850         30
+SCOTT            3000         20
+TURNER           1500         30
+ADAMS            1100         20
+JAMES             950         30
+FORD             3000         20
+
+11 rows selected.
+
+
+2.
+
+
+SQL> select ename,sal,sal+nvl(comm,0)+sal*0.10 netsal
+  2  from emp;
+
+ENAME             SAL     NETSAL
+---------- ---------- ----------
+SMITH             800        880
+ALLEN            1600       2060
+WARD             1250       1875
+JONES            2975     3272.5
+MARTIN           1250       2775
+BLAKE            2850       3135
+CLARK            2450       2695
+SCOTT            3000       3300
+KING             5000       5500
+TURNER           1500       1650
+ADAMS            1100       1210
+JAMES             950       1045
+FORD             3000       3300
+MILLER           1300       1430
+
+14 rows selected.
+............................................................................................
+3.
+
+
+SQL> select ename,job, hiredate
+  2  from emp
+  3  where hiredate < '01-jan-86' and sal between 1200 and 2500;
+
+ENAME      JOB       HIREDATE
+---------- --------- ---------
+ALLEN      SALESMAN  20-FEB-81
+WARD       SALESMAN  22-FEB-81
+MARTIN     SALESMAN  28-SEP-81
+CLARK      MANAGER   09-JUN-81
+TURNER     SALESMAN  08-SEP-81
+MILLER     CLERK     23-JAN-82
+
+6 rows selected.
+
+..........................................................................................
+
+4.
+
+
+SQL> select empno,ename,deptno,mgr
+  2  from emp
+  3  where mgr=7698;
+
+     EMPNO ENAME          DEPTNO        MGR
+---------- ---------- ---------- ----------
+      7499 ALLEN              30       7698
+      7521 WARD               30       7698
+      7654 MARTIN             30       7698
+      7844 TURNER             30       7698
+      7900 JAMES              30       7698
+...........................................................................................
+
+5.
+
+QL> select ename,job, sal,deptno
+  2  from emp
+  3  where deptno =10;
+
+ENAME      JOB              SAL     DEPTNO
+---------- --------- ---------- ----------
+CLARK      MANAGER         2450         10
+KING       PRESIDENT       5000         10
+MILLER     CLERK           1300         10
+
+...........................................................................................
+
+6.
+
+(a)
+
+SQL> select concat(concat(ename,','), deptno) as Empinfo from emp;
+
+EMPINFO
+---------------------------------------------------
+SMITH,20
+ALLEN,30
+WARD,30
+JONES,20
+MARTIN,30
+BLAKE,30
+CLARK,10
+SCOTT,20
+KING,10
+TURNER,30
+ADAMS,20
+JAMES,30
+FORD,20
+MILLER,10
+
+14 rows selected.
+...........................................................................................
+
+(b)
+
+SQL> select ename||' '||deptno as dept_name from emp;
+
+DEPT_NAME
+---------------------------------------------------
+SMITH 20
+ALLEN 30
+WARD 30
+JONES 20
+MARTIN 30
+BLAKE 30
+CLARK 10
+SCOTT 20
+KING 10
+TURNER 30
+ADAMS 20
+JAMES 30
+FORD 20
+MILLER 10
+
+14 rows selected.
+
+
+
+
+
+7.
+
+
+SQL> select *from emp
+  2  where mgr is null;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7839 KING       PRESIDENT            17-NOV-81       5000
+
+8.
+
+
+SQL> select ename,deptno,hiredate
+  2  from emp
+  3  where hiredate between '01-jan-81' and '31-mar-83'
+  4  ORDER BY hiredate;
+
+ENAME          DEPTNO HIREDATE
+---------- ---------- ---------
+ALLEN              30 20-FEB-81
+WARD               30 22-FEB-81
+JONES              20 02-APR-81
+BLAKE              30 01-MAY-81
+CLARK              10 09-JUN-81
+TURNER             30 08-SEP-81
+MARTIN             30 28-SEP-81
+KING               10 17-NOV-81
+JAMES              30 03-DEC-81
+FORD               20 03-DEC-81
+MILLER             10 23-JAN-82
+SCOTT              20 09-DEC-82
+ADAMS              20 12-JAN-83
+
+13 rows selected.
+
+9.
+
+
+SQL> select *from emp
+  2  where REGEXP_LIKE (job,'.*AGE');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+
+10.
+
+
+
+SQL>  select *from emp
+  2  where REGEXP_LIKE (ename,'^A.*S$|^..?N.*[NS]$');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+
+
+11.
+
+
+12.
+
+SQL>
+SQL> select *from emp
+  2  where REGEXP_LIKE (ename,'.*_');
+
+no rows selected
+
+
+GROUP FUNCTION..........!!!!!!
+
+QUE 1.
+
+
+SQL> select deptno,sum(sal),round(avg(sal),2),max(sal),min(sal)
+  2  from emp
+  3  group by deptno;
+
+    DEPTNO   SUM(SAL) ROUND(AVG(SAL),2)   MAX(SAL)   MIN(SAL)
+---------- ---------- ----------------- ---------- ----------
+        30       9400           1566.67       2850        950
+        20      10875              2175       3000        800
+        10       8750           2916.67       5000       1300
+
+
+
+ QUE 2.
+
+  4
+SQL> select deptno,mgr,count(*)
+  2  from emp
+  3  group by deptno,mgr;
+
+    DEPTNO        MGR   COUNT(*)
+---------- ---------- ----------
+        20       7839          1
+        10       7839          1
+        30       7698          5
+        20       7566          2
+        10       7782          1
+        20       7902          1
+        10                     1
+        30       7839          1
+        20       7788          1
+
+9 rows selected.
+
+
+
+QUE 3.
+
+
+
+
+SQL> select deptno, sum(sal)
+  2  from emp
+  3  where job !='MANAGER'
+  4  group by deptno
+  5  having sum(sal)>20000;
+
+no rows selected
+
+
+alternate ans
+
+
+SQL> select deptno, sum(sal)
+  2  from emp
+  3  where job !='MANAGER'
+  4  group by deptno
+  5  having sum(sal)>6500;
+
+    DEPTNO   SUM(SAL)
+---------- ----------
+        30       6550
+        20       7900
+
+
+

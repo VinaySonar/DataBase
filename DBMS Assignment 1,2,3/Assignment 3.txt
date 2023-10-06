@@ -1,0 +1,519 @@
+
+
+DQL Statements.............!!!!!
+
+1.
+
+
+SQL> select ename, sal
+  2  from emp where sal>1500;
+
+ENAME             SAL
+---------- ----------
+ALLEN            1600
+JONES            2975
+BLAKE            2850
+CLARK            2450
+SCOTT            3000
+KING             5000
+FORD             3000
+
+7 rows selected.
+
+2.
+
+
+SQL> select ename, sal
+  2  from emp
+  3  where sal between 1200 and 2000;
+
+ENAME             SAL
+---------- ----------
+ALLEN            1600
+WARD             1250
+MARTIN           1250
+TURNER           1500
+MILLER           1300
+
+3.
+
+
+SQL> select ename,sal
+  2  from emp
+  3  where sal in (1600,800,1900);
+
+ENAME             SAL
+---------- ----------
+SMITH             800
+ALLEN            1600
+
+
+4.
+
+SQL> select deptno,ename
+  2  from emp where REGEXP_LIKE (ename,'R..$');
+
+no rows selected
+
+
+5.
+
+
+SQL> select deptno,ename
+  2  from emp where REGEXP_LIKE (ename,'^A.*N$');
+
+    DEPTNO ENAME
+---------- ----------
+        30 ALLEN
+
+
+QUESTION 2:
+
+1.
+
+SQL> select ename,sal,deptno
+  2  from emp
+  3  where sal>1250 and deptno=30;
+
+ENAME             SAL     DEPTNO
+---------- ---------- ----------
+ALLEN            1600         30
+BLAKE            2850         30
+TURNER           1500         30
+
+2.
+
+SQL> select ename,sal
+  2  from emp
+  3  where sal >=1250 and sal <=3000;
+
+ENAME             SAL
+---------- ----------
+ALLEN            1600
+WARD             1250
+JONES            2975
+MARTIN           1250
+BLAKE            2850
+CLARK            2450
+SCOTT            3000
+TURNER           1500
+FORD             3000
+MILLER           1300
+
+10 rows selected.
+
+3.
+
+
+SQL> select ename,sal
+  2  from emp
+  3  where sal >1250 and sal <3000;
+
+ENAME             SAL
+---------- ----------
+ALLEN            1600
+JONES            2975
+BLAKE            2850
+CLARK            2450
+TURNER           1500
+MILLER           1300
+
+6 rows selected.
+
+4.
+
+
+SQL> select ename,sal
+  2  from emp
+  3  where sal in (3000,1250,2500);
+
+ENAME             SAL
+---------- ----------
+WARD             1250
+MARTIN           1250
+SCOTT            3000
+FORD             3000
+
+5.
+
+SQL> select ename, sal deptno
+  2  from emp
+  3  where ename like 'SMITH';
+
+ENAME          DEPTNO
+---------- ----------
+SMITH             800
+
+
+6.
+
+
+SQL> select empno,ename,sal
+  2  from emp
+  3  where REGEXP_LIKE (ename,'^S');
+
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+      7369 SMITH             800
+      7788 SCOTT            3000
+
+
+7.
+
+SQL> select empno,ename,sal
+  2  from emp
+  3  where REGEXP_LIKE (ename,'S$');
+
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+      7566 JONES            2975
+      7876 ADAMS            1100
+      7900 JAMES             950
+
+
+8.
+
+SQL> select empno,ename,sal
+  2  from emp
+  3  where REGEXP_LIKE (ename,'I.$');
+
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+      7654 MARTIN           1250
+
+9.
+
+
+SQL> select empno,ename,sal
+  2  from emp
+  3  where REGEXP_LIKE (ename,'^A.*L.*N$');
+
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+      7499 ALLEN            1600
+
+
+
+10.
+
+
+SQL> select empno,ename,sal
+  2  from emp
+  3  where REGEXP_LIKE (ename,'^A..B.*P.$');
+
+no rows selected
+
+
+11.
+
+
+SQL> select ename, sal
+  2  from emp
+  3  where REGEXP_LIKE (ename,'^A|^S|^W');
+
+ENAME             SAL
+---------- ----------
+SMITH             800
+ALLEN            1600
+WARD             1250
+SCOTT            3000
+ADAMS            1100
+AEBNSPK          1000
+
+6 rows selected.
+
+
+===========================================================================================================================================================================
+
+Aggregate Functions........!!!!!
+
+
+12.
+
+
+SQL> select job, max(sal),min(sal)
+  2  from emp
+  3  group by job;
+
+JOB         MAX(SAL)   MIN(SAL)
+--------- ---------- ----------
+CLERK           1300        800
+SALESMAN        1600       1250
+PRESIDENT       5000       5000
+MANAGER         2975       2450
+ANALYST         3000       3000
+
+...........................................................................................
+13.
+
+
+
+SQL> select ename, count(*)
+  2  from emp
+  3  where comm is null
+  4  group by ename;
+
+ENAME        COUNT(*)
+---------- ----------
+JONES               1
+FORD                1
+CLARK               1
+MILLER              1
+SMITH               1
+SCOTT               1
+ADAMS               1
+BLAKE               1
+KING                1
+JAMES               1
+
+10 rows selected.
+...........................................................................................
+
+14.
+
+
+SQL> select ename,sum(sal)
+  2  from emp
+  3  where deptno=10
+  4  group by ename;
+
+ENAME        SUM(SAL)
+---------- ----------
+CLARK            2450
+MILLER           1300
+KING             5000
+
+...........................................................................................
+15.
+
+
+SQL> select deptno,job,max(sal),avg(sal)
+  2  from emp
+  3  group by deptno,job
+  4  order by deptno;
+
+    DEPTNO JOB         MAX(SAL)   AVG(SAL)
+---------- --------- ---------- ----------
+        10 CLERK           1300       1300
+        10 MANAGER         2450       2450
+        10 PRESIDENT       5000       5000
+        20 ANALYST         3000       3000
+        20 CLERK           1100        950
+        20 MANAGER         2975       2975
+        30 CLERK            950        950
+        30 MANAGER         2850       2850
+        30 SALESMAN        1600       1400
+
+9 rows selected.
+..........................................................................................
+16.
+
+
+SQL> select deptno,max(sal)
+  2  from emp
+  3  where deptno>15
+  4  group by deptno
+  5  order by deptno;
+
+    DEPTNO   MAX(SAL)
+---------- ----------
+        20       3000
+        30       2850
+...........................................................................................
+17.
+
+
+SQL> select deptno, sum(sal)
+  2  from emp
+  3  group by deptno
+  4  having sum(sal)>3000;
+
+    DEPTNO   SUM(SAL)
+---------- ----------
+        30       9400
+        20      10875
+        10       8750
+...........................................................................................
+
+18.
+
+
+SQL> select deptno,count(*)
+  2  from emp
+  3  group by deptno
+  4  having count(*)>=5;
+
+    DEPTNO   COUNT(*)
+---------- ----------
+        30          6
+        20          5
+
+...........................................................................................
+
+19.
+
+
+SQL> select job,sum(sal),count(*)
+  2  from emp
+  3  group by job
+  4  having sum(sal)>2000;
+
+JOB         SUM(SAL)   COUNT(*)
+--------- ---------- ----------
+CLERK           4150          4
+SALESMAN        5600          4
+PRESIDENT       5000          1
+MANAGER         8275          3
+ANALYST         6000          2
+
+..........................................................................................
+
+20.
+
+
+SQL> select lower(ename) ename,lower(job) job
+  2  from emp;
+
+ENAME      JOB
+---------- ---------
+smith      clerk
+allen      salesman
+ward       salesman
+jones      manager
+martin     salesman
+blake      manager
+clark      manager
+scott      analyst
+king       president
+turner     salesman
+adams      clerk
+james      clerk
+ford       analyst
+miller     clerk
+
+14 rows selected.
+
+..........................................................................................
+
+21.
+
+
+SQL> select lpad(ename,15,' '), job, length(ename)
+  2  from emp
+  3  group by ename, job
+  4  /
+
+LPAD(ENAME,15,' JOB       LENGTH(ENAME)
+--------------- --------- -------------
+           WARD SALESMAN              4
+          SMITH CLERK                 5
+          CLARK MANAGER               5
+         TURNER SALESMAN              6
+          JAMES CLERK                 5
+          JONES MANAGER               5
+         MARTIN SALESMAN              6
+          ADAMS CLERK                 5
+          SCOTT ANALYST               5
+           KING PRESIDENT             4
+           FORD ANALYST               4
+          ALLEN SALESMAN              5
+          BLAKE MANAGER               5
+
+...........................................................................................
+
+22.
+
+QL> select mgr ,max(sal),round(avg(sal),2),min(sal)
+  2  from emp
+  3  group by mgr;
+
+       MGR   MAX(SAL) ROUND(AVG(SAL),2)   MIN(SAL)
+---------- ---------- ----------------- ----------
+      7839       2975           2758.33       2450
+                 5000              5000       5000
+      7782       1300              1300       1300
+      7698       1600              1310        950
+      7902        800               800        800
+      7566       3000              3000       3000
+      7788       1100              1100       1100
+
+7 rows selected.
+
+...........................................................................................
+
+23.
+
+
+SQL> select deptno, sum(sal+nvl(comm,0)) sum,avg(sal+nvl(comm,0)) avg
+  2  from emp
+  3  where deptno in(10,20) and sal>2000
+  4  group by deptno;
+
+    DEPTNO        SUM        AVG
+---------- ---------- ----------
+        20       8975          2991.66667
+        10       7450           3725
+
+...........................................................................................
+
+24.
+
+
+SQL> select *from emp
+  2  where extract(month from hiredate)=8 and extract(year from hiredate)=1980 and  sal between 1500 and 2500;
+
+no rows selected
+
+.........................................................................................
+
+25.
+
+
+SQL> select *from emp
+  2  where extract(month from hiredate) in (8,5,12);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+.........................................................................................
+
+26.
+
+
+SQL> select ename,job,hiredate,to_char(hiredate,'dd/mm/yyyy')
+  2  from emp
+  3  where job='CLERK';
+
+ENAME      JOB       HIREDATE  TO_CHAR(HI
+---------- --------- --------- ----------
+SMITH      CLERK     17-DEC-80 17/12/1980
+ADAMS      CLERK     12-JAN-83 12/01/1983
+JAMES      CLERK     03-DEC-81 03/12/1981
+MILLER     CLERK     23-JAN-82 23/01/1982
+
+...........................................................................................
+
+27.
+
+
+
+
+.........................................................................................
+
+28.
+
+
+SQL> select empno,ename,to_char(nvl(comm,0),'$99,999.99')
+  2  from emp
+  3  where ename like 'A%N';
+
+          EMPNO ENAME      TO_CHAR(NVL
+--------------- ---------- -----------
+           7499 ALLEN          $300.00
+
+
+
