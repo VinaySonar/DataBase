@@ -1,0 +1,161 @@
+1)
+ create table customer (cid int primary key,cname text, mobile set<int>,email tuple<text,text>,purchaseveh map<text,int>,hobbies list<text>);
+==========================================================================================================================================================
+2) insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(11,'Raju',{444444},('abc','pqr'),{'mercedes':25},['reading','playing']);
+cqlsh:iacsd0923> insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(12,'Yash',{5555},('xyz','dac'),{'BMW':25},['watching','singing']);
+cqlsh:iacsd0923> insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(13,'ABHI',{4444},('PQR','DBDA'),{'AUDI':25},['watching','playing']);
+cqlsh:iacsd0923> insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(14,'OMKAR',{2222},('ERT','DITISS'),{'DUCATI':25},['watching','DANCING']);
+cqlsh:iacsd0923> insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(15,'AKASH',{8822},('OPFD','SADF'),{'JAGUAR':25},['watching','WRITING']);
+cqlsh:iacsd0923> SELECT * FROM CUSTOMER;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |   ('PQR', 'DBDA') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 |  Raju |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') | ['watching', 'singing'] |   {5555} |      {'BMW': 25}
+===========================================================================================================================================================
+
+
+Q3)
+ update customer set hobbies=['Design','Drawing'] where cid=12;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |   ('PQR', 'DBDA') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 |  Raju |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |   ['Design', 'Drawing'] |   {5555} |      {'BMW': 25}
+===================================================================================================================================================================
+
+
+Q4)
+ delete hobbies[0] from customer where cid=12;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |   ('PQR', 'DBDA') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 |  Raju |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+==============================================================================================================================================================
+
+
+Q5)
+cqlsh:iacsd0923> update customer set cname='Shubh' where cid=11;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |   ('PQR', 'DBDA') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 | Shubh |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+============================================================================================================================================================
+
+Q6)
+
+cqlsh:iacsd0923> update customer set email=('xyz','dac') where cid=13;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |    ('xyz', 'dac') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 | Shubh |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+============================================================================================================================================================
+
+Q7)
+
+cqlsh:iacsd0923> update customer set purchaseveh=purchaseveh+{'karizma':05} where cid=13;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+----------------------------
+  13 |  ABHI |    ('xyz', 'dac') | ['watching', 'playing'] |   {4444} | {'AUDI': 25, 'karizma': 5}
+  11 | Shubh |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} |           {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |             {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |             {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |                {'BMW': 25}
+
+cqlsh:iacsd0923> delete purchaseveh['karizma'] from customer where cid=13;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |    ('xyz', 'dac') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 | Shubh |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+
+============================================================================================================================================================
+
+Q8)
+cqlsh:iacsd0923> update customer set hobbies=hobbies+['watchingTV','Playing'] where cid=14 ;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                                          | mobile   | purchaseveh
+-----+-------+-------------------+--------------------------------------------------+----------+------------------
+  13 |  ABHI |    ('xyz', 'dac') |                          ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 | Shubh |    ('abc', 'pqr') |                           ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') |                          ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING', 'watchingTV', 'Playing'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |                                      ['Drawing'] |   {5555} |      {'BMW': 25}
+
+(5 rows)
+cqlsh:iacsd0923> update customer set hobbies=hobbies-['watchingTV','Playing'] where cid=14 ;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |    ('xyz', 'dac') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 | Shubh |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 25}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+
+============================================================================================================================================================
+
+Q9)cqlsh:iacsd0923> update customer set purchaseveh={'JAGUAR':15} where cid=15;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname | email             | hobbies                 | mobile   | purchaseveh
+-----+-------+-------------------+-------------------------+----------+------------------
+  13 |  ABHI |    ('xyz', 'dac') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 | Shubh |    ('abc', 'pqr') |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  15 | AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 15}
+  14 | OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  12 |  Yash |    ('xyz', 'dac') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+============================================================================================================================================================
+
+
+Q2)
+cqlsh:iacsd0923> begin batch
+             ... insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(16,'AKSHAY',{8555},('OPFD','SADF'),{'JAGUAR':25},['watching','WRITING']);
+             ... insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(17,'VIKAS',{8667},('RTE','WAS'),{'ACTIVA':25},['EATING','SLEEPING']);
+             ... insert into customer(cid,cname,mobile,email,purchaseveh,hobbies) values(18,'VIRAT',{8989},('UID','PID'),{'SPLENDER':25},['FIGHTING','RUNNING']);
+             ... delete email from customer where cid=11;
+             ... update customer set email=('zzz','yyyy') where cid=12;
+             ... apply batch;
+cqlsh:iacsd0923> select * from customer;
+
+ cid | cname  | email             | hobbies                 | mobile   | purchaseveh
+-----+--------+-------------------+-------------------------+----------+------------------
+  16 | AKSHAY |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8555} |   {'JAGUAR': 25}
+  13 |   ABHI |    ('xyz', 'dac') | ['watching', 'playing'] |   {4444} |     {'AUDI': 25}
+  11 |  Shubh |              null |  ['reading', 'playing'] | {444444} | {'mercedes': 25}
+  18 |  VIRAT |    ('UID', 'PID') | ['FIGHTING', 'RUNNING'] |   {8989} | {'SPLENDER': 25}
+  15 |  AKASH |  ('OPFD', 'SADF') | ['watching', 'WRITING'] |   {8822} |   {'JAGUAR': 15}
+  14 |  OMKAR | ('ERT', 'DITISS') | ['watching', 'DANCING'] |   {2222} |   {'DUCATI': 25}
+  17 |  VIKAS |    ('RTE', 'WAS') |  ['EATING', 'SLEEPING'] |   {8667} |   {'ACTIVA': 25}
+  12 |   Yash |   ('zzz', 'yyyy') |             ['Drawing'] |   {5555} |      {'BMW': 25}
+
